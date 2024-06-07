@@ -32,6 +32,8 @@ DRAFT-*.tex
 **/*.mtc0
 **/*.ptc*
 
+*.swp
+
 drafts/**/*.bib
 keepsakes/*
 !media/**

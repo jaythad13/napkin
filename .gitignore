@@ -2,6 +2,7 @@ Napkin.*
 !Napkin.tex
 DRAFT-*.tex
 
+.DS_Store
 
 .log
 .dropbox

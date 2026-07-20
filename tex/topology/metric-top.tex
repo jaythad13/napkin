@@ -219,8 +219,8 @@ Here is an equivalent condition.
 	A function $f \colon M \to N$ of metric spaces
 	is continuous at a point $p \in M$
 	if and only if the following property holds:
-	if $x_1$, $x_2$, \dots\ is a sequence in $M$ converging to $p$,
-	then the sequence $f(x_1)$, $f(x_2)$, \dots\ in $N$ converges to $f(p)$.
+	for every sequence $x_1$, $x_2$, \dots\ in $M$ converging to $p$,
+	the sequence $f(x_1)$, $f(x_2)$, \dots\ in $N$ converges to $f(p)$.
 \end{theorem}
 \begin{proof}
 	One direction is not too hard:
@@ -398,7 +398,7 @@ with the homeomorphism being just the identity map.
 \begin{example}[$\RR^2$]
 	If $M = N = \RR$, we get $\RR^2$, the Euclidean plane.
 	The metric $d_{\text{Euclid}}$ is the one we started with,
-	but using either of the other two metric works fine as well.
+	but using either of the other two metrics works fine as well.
 \end{example}
 
 The product metric plays well with convergence of sequences.
@@ -669,7 +669,7 @@ It is simply the smallest closed set which contains $S$.
 	\end{enumerate}
 \end{example}
 \begin{example}
-	[Non-examples of closed sets]
+	[Non-example of closed sets]
 	Let $S=(0,1)$ denote the open interval.
 	Then $S$ is not closed in $\RR$
 	because the sequence of points
@@ -817,7 +817,7 @@ The reason for the opposing terms is the following theorem:
 		Projecting these missing intervals to the $y$-axis you find uncountably
 		many intervals (one for each $x \in [0,1]$) all of which are disjoint.
 		In particular, summing the $\eps_x$ you get that a sum of uncountably
-		many positive reals is $1$.
+		many positive reals is at most $1$.
 
 		But in general it isn't possible for an uncountable family $\mathcal F$
 		of positive reals to have finite sum.
@@ -855,7 +855,7 @@ The reason for the opposing terms is the following theorem:
 
 		On the other hand, it does \emph{not} make sense to try to define $1/x$
 		as a function on $\RR$.
-		The definition a function requires you to specify an output value for every input,
+		The definition of a function requires you to specify an output value for every input,
 		so at least if you want a real-valued function\footnote{Those of you
 			that know what $\mathbb{RP}^1$ is could consider it as a function
 			$\mathbb{RP}^1 \to \mathbb{RP}^1$ if you insisted;

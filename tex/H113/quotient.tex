@@ -1,7 +1,7 @@
 \chapter{Homomorphisms and quotient groups}
 \label{ch:homomorphisms_quotient}
 \section{Generators and group presentations}
-\prototype{$D_{2n} = \left< r,s \mid r^n=s^2=1\right>$}
+\prototype{$D_{2n} = \left< r,s \mid r^n=s^2=1, rs = sr\inv\right>$}
 
 Let $G$ be a group.
 Recall that for some element $x \in G$,
@@ -30,14 +30,14 @@ This leads us to define:
 \end{definition}
 \begin{exercise}
 	Why is the condition ``and their inverses''
-	not necessary if $G$ is  a finite group?
+	not necessary if $G$ is a finite group?
 	(As usual, assume Lagrange's theorem.)
 \end{exercise}
 
 \begin{example}[$\ZZ$ is the infinite cyclic group]
 	Consider $1$ as an element of $\ZZ = (\ZZ, +)$.
 	We see $\left<1\right> = \ZZ$, meaning $\{1\}$ generates $\ZZ$.
-	It's important that $-1$, the inverse of $1$ is also allowed:
+	It's important that $-1$, the inverse of $1$, is also allowed:
 	we need it to write all integers as the sum of $1$ and $-1$.
 \end{example}
 
@@ -102,7 +102,7 @@ In fact, it is undecidable to even determine if a group is finite from its prese
 \begin{example}
 	[Presentations can look very different]
 	The same group can have very different presentations.
-	For instance consider
+	For instance, consider:
 	\[ D_{2n} = \left< x,y \mid x^2=y^2=1, (xy)^n=1 \right>. \]
 	(To see why this is equivalent, set $x=s$, $y=rs$.)
 \end{example}
@@ -657,11 +657,12 @@ is an \emph{embedding} of $G$ into $H$.
 		$\gcd(1000,999)=1$.
 	\end{hint}
 	\begin{sol}
-		$G/\ker G$ is isomorphic to a subgroup of $H$.
+		Let $\phi \colon G \to H$ be a homomorphism.
+		Then $G / \ker\phi$ is isomorphic to a subgroup of $H$.
 		The order of the former divides $1000$;
 		the order of the latter divides $999$.
-		This can only occur if $G / \ker G = \{1\}$
-		so $\ker G = G$.
+		This can only occur if $G / \ker\phi = \{1\}$
+		so $\ker\phi = G$.
 	\end{sol}
 \end{problem}
 

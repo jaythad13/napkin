@@ -18,8 +18,29 @@ Here is the notion of ``nice'':
 \end{definition}
 Picture:
 \begin{center}
-	\includegraphics[width=4cm]{media/even-covering.png}
-	\\ \scriptsize Image from \cite{img:even_covering}
+	\begin{asy}
+		import math;
+
+		size(8cm);
+
+		real a = 1.2;
+		real b = 0.35;
+
+		filldraw(ellipse((0, 3.2), a, b), white, linewidth(1.2));
+		label("$\vdots$", (0, 2.64), fontsize(14));
+		filldraw(ellipse((0, 1.6), a, b), white, linewidth(1.2));
+		filldraw(ellipse((0, 1.95), a, b), white, linewidth(1.2));
+
+		path bracePath = shift((-1.34, 1.6)) * rotate(90) * brace(0, 1.58, 0.26);
+		draw(bracePath, linewidth(1));
+		label("$p^{-1}(U)$", (-2.08, 2.4), fontsize(14));
+
+		draw((0, 1.02)--(0, 0.28), linewidth(1), Arrow(size=4.8));
+		label("$p$", (0.02, 0.7), E, fontsize(14));
+
+		draw(ellipse((0, -0.3), a, b), linewidth(1.2));
+		label("$U$", (-1.84, -0.3), fontsize(14));
+	\end{asy}
 \end{center}
 All we're saying is that $U$ is evenly covered if its pre-image
 is a bunch of copies of it. (Actually, a little more: each of the pancakes is homeomorphic to $U$, but we also require that $p$ is the homeomorphism.)
@@ -259,31 +280,88 @@ The theorem can be generalized to a diagram
 	(Y, y_0)  \ar[ru, "\tilde{f}"] \ar[r, "f"'] & (B, b_0)
 \end{tikzcd}
 \end{center}
-where $Y$ is some general path-connected space, as follows.
+where $Y$ is a sufficiently nice space, as follows.
+\begin{definition}
+	A space $Y$ is \vocab{locally path-connected} if, at any point $x\in Y$,
+	every open neighborhood $U$ of $x$ contains a path-connected open neighborhood
+	$V\subseteq U$.
+\end{definition}
 \begin{theorem}[General lifting criterion]
 	\label{thm:lifting}
-	Let $f \colon (Y,y_0) \to (B, b_0)$ be continuous
-	and consider a covering projection $p \colon (E, e_0) \to (B, b_0)$.
-	(As usual, $Y$, $B$, $E$ are path-connected.)
-	Then a lifting $\tilde f$ with $\tilde f(y_0) = e_0$ exists if and only if
+	Let $p \colon (E, e_0) \to (B, b_0)$ be a covering projection. If $Y$ is a
+	path-connected and locally path-connected space, then for any continuous
+	$f \colon (Y,y_0) \to (B, b_0)$, a lifting $\tilde f$ with $\tilde f(y_0) = e_0$
+	exists if and only if
 	\[ f_\sharp\im(\pi_1(Y, y_0)) \subseteq p_\sharp\im(\pi_1(E, e_0)), \]
 	i.e.\ the image of $\pi_1(Y, y_0)$ under $f$ is contained in
 	the image of $\pi_1(E, e_0)$ under $p$ (both viewed as subgroups of $\pi_1(B, b_0)$).
-	If this lifting exists, it is unique.
+	If this lifting exists, then it is unique.
 \end{theorem}
 As $p_\sharp$ is injective,
 we actually have $p_\sharp\im(\pi_1(E, e_0)) \cong \pi_1(E, e_0)$.
 But in this case we are interested in the actual elements, not just the isomorphism classes of the groups.
 \begin{ques}
-	What happens if we put $Y= [0,1]$?
+	What happens if we put $Y=[0,1]$?
 \end{ques}
-
 \begin{remark}[Lifting homotopies]
 	Here's another cool special case:
 	Recall that a homotopy can be encoded as a continuous function $[0,1] \times [0,1] \to X$.
 	But $[0,1] \times [0,1]$ is also simply connected.
 	Hence given a homotopy $\gamma_1 \simeq \gamma_2$ in the base space $B$, we can lift it to get
 	a homotopy $\tilde\gamma_1 \simeq \tilde\gamma_2$ in $E$.
+\end{remark}
+\begin{remark}[The locally path-connected condition really is necessary]
+	Let $Y$ be the \textit{Warsaw circle}, depicted below,
+	consisting of the graph of $y=\sin(1/x)$ for $0<x<1/\pi$,
+	the segment $\{0\}\times[-1,1]$, and a curve to close everything up.
+	\begin{center}
+		\begin{asy}
+			size(4cm);
+			import graph;
+
+			real w = 0.55;  // width
+			real h = 0.22;  // amplitude
+			real a = 0.70;  // horizontal radius
+			real b = 0.55;  // vertical radius
+
+			real k = 25;
+			real f(real x) {
+			    return h * sin(k * log(w/x));
+			}
+
+			draw((0, -h) -- (0, h), linewidth(1.8) + squarecap);
+
+			guide sine_curve;
+			int n = 4000;
+			real max_depth = 8.0;
+			for(int i = n; i >= 0; --i) {
+			    real t = i / (real)n;
+			    real x = w * exp(-t * max_depth);
+			    sine_curve = sine_curve -- (x, f(x));
+			}
+
+			real cx = w / 2;
+			real theta0 = acos((w / 2) / a);
+			real cy = -b * sin(theta0);
+
+			guide loop;
+			int steps = 500;
+			real sweep_angle = pi + 2 * theta0;
+			for(int i = 0; i <= steps; ++i) {
+    			real theta = theta0 - sweep_angle * (i / (real)steps);
+    			real px = cx + a * cos(theta);
+    			real py = cy + b * sin(theta);
+    			loop = loop -- (px, py);
+			}
+
+			draw(sine_curve -- loop, linewidth(1.8) + roundjoin);
+		\end{asy}
+    \end{center}
+    The space $Y$ is simply connected, thus the lifting criterion
+	is trivially satisfied, but the function $f:Y\to S^1$ which
+	collapses the sine curve vertically does not lift to a function
+	$\tilde f:Y\to\RR$. The lifting theorem does not apply here,
+	because $Y$ is not locally path-connected at the origin.
 \end{remark}
 Another nice application of this result is \Cref{ch:complex_log}.
 
@@ -361,7 +439,7 @@ This motivates:
 	You can show (and it's intuitively obvious) that the bijection
 	\[ \Phi \colon \pi_1(S^1) \leftrightarrow \ZZ \]
 	is in fact a group homomorphism if we equip $\ZZ$ with its
-	additive group structure $\ZZ$.
+	additive group structure.
 	Since it's a bijection, this leads us to conclude $\pi_1(S^1) \cong \ZZ$.
 \end{example}
 
@@ -488,7 +566,7 @@ Next up, we're going to turn functions between spaces into homomorphisms of fund
 
 Let $X$ and $Y$ be topological spaces and $f \colon (X, x_0) \to (Y, y_0)$.
 Recall that we defined a group homomorphism
-\[ f_\sharp \colon \pi_1(X, x_0) \to \pi_1(Y_0, y_0)
+\[ f_\sharp \colon \pi_1(X, x_0) \to \pi_1(Y, y_0)
 	\quad\text{by}\quad
 	[\gamma] \mapsto [f \circ \gamma]. \]
 % which gave us a functor $\catname{Top}_\ast \to \catname{Grp}$.
